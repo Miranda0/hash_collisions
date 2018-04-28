@@ -1,4 +1,4 @@
-OBJS = main.o 
+OBJS = main.o QuadraticProbing.o SeparateChaining.o
 CC = g++
 CPPFLAGS = -Wall -c -g -std=c++11
 LFLAGS = -Wall -g
@@ -13,7 +13,7 @@ LinearProbing.o: LinearProbing.h LinearProbing.cpp
 	$(CC) $(CPPFLAGS) LinearProbing.cpp
 
 QuadraticProbing.o: QuadraticProbing.h QuadraticProbing.cpp
-	$(CC) $(CPPFLAGS) QuadtraticProbing.cpp
+	$(CC) $(CPPFLAGS) QuadraticProbing.cpp
 
 SeparateChaining.o: SeparateChaining.h SeparateChaining.cpp
 	$(CC) $(CPPFLAGS) SeparateChaining.cpp
