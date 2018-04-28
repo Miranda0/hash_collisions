@@ -6,7 +6,6 @@ using namespace std;
 /**
  * Internal method to test if a positive number is prime.
  * Not an efficient algorithm.
- */
 bool isPrime( int n )
 {
     if( n == 2 || n == 3 )
@@ -22,10 +21,11 @@ bool isPrime( int n )
     return true;
 }
 
+ */
+
 /**
  * Internal method to return a prime number at least as large as n.
  * Assumes n > 0.
- */
 int nextPrime( int n )
 {
     if( n % 2 == 0 )
@@ -36,6 +36,8 @@ int nextPrime( int n )
 
     return n;
 }
+
+ */
 
 /**
  * A hash routine for string objects.
