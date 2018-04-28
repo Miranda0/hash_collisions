@@ -21,10 +21,10 @@ int nextPrime( int n );
 // int hashCode( string str ) --> Global method to hash strings
 
 template <typename HashedObj>
-class HashTable
+class QuadraticProbing
 {
   public:
-    explicit HashTable( int size = 101 ) : array( nextPrime( size ) )
+    explicit QuadraticProbing( int size = 101 ) : array( nextPrime( size ) )
       { makeEmpty( ); }
 
     bool contains( const HashedObj & x ) const
@@ -35,15 +35,16 @@ class HashTable
     void makeEmpty( )
     {
         currentSize = 0;
-        for( auto & entry : array )
+        for(auto & entry : array){
             entry.info = EMPTY;
+        }
     }
 
-    bool insert( const HashedObj & x )
+    bool insert(const HashedObj &x)
     {
             // Insert x as active
-        int currentPos = findPos( x );
-        if( isActive( currentPos ) )
+        int currentPos = findPos(x);
+        if( isActive(currentPos))
             return false;
 
         if( array[ currentPos ].info != DELETED )
