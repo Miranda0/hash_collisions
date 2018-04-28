@@ -7,7 +7,7 @@
 #include <string>
 using namespace std;
 
-int nextPrime( int n );
+
 
 // QuadraticProbing Hash table class
 //
@@ -24,6 +24,7 @@ template <typename HashedObj>
 class QuadraticProbing
 {
   public:
+    int nextPrime( int n );
     explicit QuadraticProbing( int size = 101 ) : array( nextPrime( size ) )
       { makeEmpty( ); }
 

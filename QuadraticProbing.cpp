@@ -6,7 +6,7 @@ using namespace std;
  * Internal method to test if a positive number is prime.
  * Not an efficient algorithm.
  */
-bool isPrime( int n )
+bool QuadraticProbing::isPrime( int n )
 {
     if( n == 2 || n == 3 )
         return true;
