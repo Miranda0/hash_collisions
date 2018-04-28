@@ -103,7 +103,6 @@ class SeparateChaining
 
     	return true;
 	}
-`
 	/**
 	 * Internal method to return a prime number at least as large as n.
 	 * Assumes n > 0.
@@ -117,7 +116,6 @@ class SeparateChaining
         	;
 
     	return n;
-}
 	}
 
     void rehash( )
