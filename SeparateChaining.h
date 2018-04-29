@@ -6,9 +6,8 @@
 #include <string>
 #include <algorithm>
 #include <functional>
+
 using namespace std;
-
-
 
 // SeparateChaining Hash table class
 //
@@ -32,6 +31,16 @@ class SeparateChaining
         auto & whichList = theLists[ myhash( x ) ];
         return find( begin( whichList ), end( whichList ), x ) != end( whichList );
     }
+	
+	int getCollisions()
+	{
+		return collisions;
+	}
+	
+	int getSize()
+	{
+		return currentSize;
+	}
 
     void makeEmpty( )
     {
@@ -44,26 +53,37 @@ class SeparateChaining
         auto & whichList = theLists[ myhash( x ) ];
         if( find( begin( whichList ), end( whichList ), x ) != end( whichList) )
             return false;
-        whichList.push_back( x );
+		
+		// keep track of collisions
+		if(whichList.size() > 0)
+			collisions++;
+		
+		whichList.push_back( x );
 
             // Rehash; see Section 5.5
-        if( ++currentSize > theLists.size( ) )
-            rehash( );
-
+        if( ++currentSize > theLists.size( ) ){
+			rehash( );
+		}
         return true;
     }
-    
+
+
     bool insert( HashedObj && x )
     {
         auto & whichList = theLists[ myhash( x ) ];      
         if( find( begin( whichList ), end( whichList ), x ) != end( whichList ) )
             return false;
+		
+		// keep track of collisions
+		if(whichList.size() > 0)
+			collisions++;		
+		
         whichList.push_back( std::move( x ) );
-
+		
             // Rehash; see Section 5.5
-        if( ++currentSize > theLists.size( ) )
-            rehash( );
-
+        if( ++currentSize > theLists.size( ) ){
+			rehash( );
+		}
         return true;
     }
 
@@ -82,7 +102,8 @@ class SeparateChaining
 
   private:
     vector<list<HashedObj>> theLists;   // The array of Lists
-    int  currentSize;
+    unsigned int currentSize;
+	int collisions;
 
 
 	/**

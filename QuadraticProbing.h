@@ -28,6 +28,16 @@ class QuadraticProbing
     explicit QuadraticProbing( int size = 101 ) : array( nextPrime( size ) )
       { makeEmpty( ); }
 
+	  
+	int getCollisions(){
+		return collisions;
+	}
+	
+	void setHash(int hType)
+	{
+		hashType = hType;
+	}
+	
     bool isPrime( int n )
     {
         if( n == 2 || n == 3 )
@@ -69,7 +79,7 @@ class QuadraticProbing
     bool insert(const HashedObj &x)
     {
             // Insert x as active
-        int currentPos = findPos(x);
+        unsigned int currentPos = (unsigned int)findPos(x);
         if( isActive(currentPos))
             return false;
 
@@ -132,20 +142,32 @@ class QuadraticProbing
     };
     
     vector<HashEntry> array;
-    int currentSize;
+    unsigned int currentSize;
+	int collisions;
+	int hashType;
 
     bool isActive( int currentPos ) const
       { return array[ currentPos ].info == ACTIVE; }
 
-    int findPos( const HashedObj & x ) const
+    int findPos( const HashedObj & x ) 
     {
         int offset = 1;
-        int currentPos = myhash( x );
-
+		unsigned int currentPos;
+		
+		if (hashType == 0)
+			currentPos = (unsigned int)myhash( x );
+		else if (hashType == 1)
+			currentPos = (unsigned int)simplehash( x );
+		else if (hashType == 2)
+			currentPos = (unsigned int)prefixhash( x );
+		else if (hashType == 3)
+			currentPos = (unsigned int)fullhash( x );
+			
         while( array[ currentPos ].info != EMPTY &&
                array[ currentPos ].element != x )
         {
-            currentPos += offset;  // Compute ith probe
+            collisions++;
+			currentPos += offset;  // Compute ith probe
             offset += 2;
             if( currentPos >= array.size( ) )
                 currentPos -= array.size( );
@@ -175,6 +197,32 @@ class QuadraticProbing
         static hash<HashedObj> hf;
         return hf( x ) % array.size( );
     }
+	
+	size_t simplehash( const HashedObj & x ) const 
+	{
+		int hashVal = 0;
+		
+		for ( char ch : x )
+			hashVal += ch;
+		
+		return hashVal % array.size();
+		
+	}
+	
+	size_t prefixhash( const HashedObj & x ) const 
+	{
+		return (x[0]+27*x[1]+729*x[2])%array.size();
+	}
+	
+	size_t fullhash( const HashedObj & x ) const
+	{
+		unsigned int hashVal = 0;
+		for (char ch : x)
+			hashVal = 37*hashVal+ch;
+		
+		return hashVal % array.size();
+	}
+	
 };
 
 #endif
